@@ -18,6 +18,19 @@ Running Claude Code on two machines usually means two parallel universes of cont
 - **Cross-machine messaging** through a relay API so an agent on one machine can signal the other ("done — your turn")
 - **Drift detection** — the sync job reports when files changed in both places between syncs
 
+## Architecture
+
+```mermaid
+graph LR
+    Mac[🍎 Mac · canonical · plans · memory · skills · projects] -->|launchd rsync| Drive[(💾 Shared NAS)]
+    Drive -->|Task Scheduler rsync| PC[🪟 PC · mirror]
+
+    Mac -.->|Relay API · 'your turn'| PC
+    PC -.->|Relay API| Mac
+
+    Drift[⚠️ Drift report] -.-> Drive
+```
+
 ## Software
 
 | Layer | Tech |
